@@ -1,0 +1,19 @@
+#submitBtn {
+    margin-top: 3%;
+    margin-bottom:10%;
+}
+
+#spinner {
+    display: None;
+}
+
+#slideshow{
+    width: 50%;
+    position: relative;
+    left: 25%;
+    margin-bottom: 5%;
+}
+
+.text-center {
+    margin-bottom: 2%;
+}

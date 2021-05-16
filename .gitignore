@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# too large files
+02_Desenho/TrackingSystem/VerificaçãoEntradaSaida.png
+02_Desenho/ClassDiagram.png
+03_Implementacao/Dataset/Imgs/BackgroundImg2.tif
+03_Implementacao/Dataset/Imgs/test_img2.jpg
+03_Implementacao/PythonAlgs/src/database_api/
+04_Teste/
+03_Implementacao/PythonAlgs/src/tests/movement_test/gravado.avi

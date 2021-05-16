@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counting</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="css/countingResultsStyle.css">
+</head>
+<body>
+
+<div class="row">
+
+    <div class="col-2">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+               aria-controls="v-pills-home" aria-selected="true">General</a>
+
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+               aria-controls="v-pills-profile" aria-selected="false">People Info</a>
+
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+               aria-controls="v-pills-messages" aria-selected="false">Plots</a>
+
+        </div>
+    </div>
+
+    <div class="col-10">
+        <div class="tab-content" id="v-pills-tabContent">
+
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <h5 class="text-center">Number of entries: {{ len(entries) }}</h5>
+                <h5 class="text-center">Number of exits: {{ len(exits) }}</h5>
+                <p id="generalP" class="text-center">Follow the counting process! <br>
+                    We made a video where you can check the verificity
+                    of the results.</p>
+
+                <video id="generalVideo" controls>
+                    <source src="{{ video_path }}" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                <h3 class="text-center">Entries</h3>
+
+                <div class="container-fluid">
+                    <div class="row">
+
+                        {% for i in range(len(entries)) %}
+                        <div class="card person_frames">
+                            <img src="{{ frames_path[i] }}" class="img-thumbnail" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">ID {{ entries[i].id }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">Event detected at {{ entries[i].event_time }}</small>
+                                </p>
+                            </div>
+                        </div>
+                        {% end %}
+
+                    </div>
+                </div>
+
+                <h3 class="text-center">Exits</h3>
+
+                <div class="container-fluid">
+                    <div class="row">
+
+                        {% for i in range(len(exits)) %}
+                        <div class="card person_frames">
+                            <img src="{{ frames_path[i + len(entries)] }}" class="img-thumbnail" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">ID {{ exits[i].id }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">Event detected at {{ exits[i].event_time }}</small>
+                                </p>
+                            </div>
+                        </div>
+                        {% end %}
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                <h3 class="text-center">Entries Plots</h3>
+
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ entries_plots[0] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Area</h5>
+                                <p class="card-text">This is a plot with information of person areas</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Area = &sum; 1, to every pixel detected in person bounding box</li>
+                                <li class="list-group-item">Person axis follow entries + exits order</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ entries_plots[1] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Hue</h5>
+                                <p class="card-text">This is a plot with information of hue</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Hue value between 0-180</li>
+                                <li class="list-group-item">Hue values of every person</li>
+                                <li class="list-group-item">Histogram is normalized in order to be a probability
+                                    density function</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ entries_plots[2] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Saturation</h5>
+                                <p class="card-text">This is a plot with information of saturation</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Saturation value between 0-255</li>
+                                <li class="list-group-item">Saturation values of every person</li>
+                                <li class="list-group-item">Histogram is normalized in order to be a probability
+                                    density function</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ entries_plots[3] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">MPEG-7 Edge Descriptor</h5>
+                                <p class="card-text">This is a plot with information of edges</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Edges are points at which image brightness changes sharply</li>
+                                <li class="list-group-item">Each person frame is divided in 16 blocks (4x4)</li>
+                                <li class="list-group-item">Each block is quantified (0-7 intervals) in vertical, horizontal, diag-45,
+                                    diag-135, non-directional edges</li>
+                                <li class="list-group-item"> 5 X 16 = 80 vector elements</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ entries_plots[4] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">MPEG-7 Color Descriptor</h5>
+                                <p class="card-text">This is a plot with information of structured color</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">64 colors used</li>
+                                <li class="list-group-item">Alike hue histogram but it has structure color information</li>
+                                <li class="list-group-item">Counting made in blocks and not in pixels</li>
+                                <li class="list-group-item">Quantification in counting results (0-255 intervals)</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <h3 id="exitsTitle" class="text-center">Exits Plots</h3>
+
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ exits_plots[0] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Area</h5>
+                                <p class="card-text">This is a plot with information of person areas</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Area = &sum; 1, to every pixel detected in person bounding box</li>
+                                <li class="list-group-item">Person axis follow entries + exits order</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ exits_plots[1] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Hue</h5>
+                                <p class="card-text">This is a plot with information of hue</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Hue value between 0-180</li>
+                                <li class="list-group-item">Hue values of every person</li>
+                                <li class="list-group-item">Histogram is normalized in order to be a probability
+                                    density function</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ exits_plots[2] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Saturation</h5>
+                                <p class="card-text">This is a plot with information of saturation</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Saturation value between 0-255</li>
+                                <li class="list-group-item">Saturation values of every person</li>
+                                <li class="list-group-item">Histogram is normalized in order to be a probability
+                                    density function</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ exits_plots[3] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">MPEG-7 Edge Descriptor</h5>
+                                <p class="card-text">This is a plot with information of edges</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Edges are points at which image brightness changes sharply</li>
+                                <li class="list-group-item">Each person frame is divided in 16 blocks (4x4)</li>
+                                <li class="list-group-item">Each block is quantified (0-7 intervals) in vertical, horizontal, diag-45,
+                                    diag-135, non-directional edges</li>
+                                <li class="list-group-item"> 5 X 16 = 80 vector elements</li>
+                            </ul>
+                        </div>
+
+                        <div class="card plot" style="width: 35rem;">
+                            <img src="{{ exits_plots[4] }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">MPEG-7 Color Descriptor</h5>
+                                <p class="card-text">This is a plot with information of structured color</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">64 colors used</li>
+                                <li class="list-group-item">Alike hue histogram but it has structure color information</li>
+                                <li class="list-group-item">Counting made in blocks and not in pixels</li>
+                                <li class="list-group-item">Quantification in counting results (0-255 intervals)</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

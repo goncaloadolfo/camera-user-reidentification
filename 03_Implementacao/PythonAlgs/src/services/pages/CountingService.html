@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>People Counting</title>
+    <link rel="stylesheet" href="css/globalStyle.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <form id="contact" enctype="multipart/form-data" method="post">
+
+        <h3 id="mainTitle">People Counting Service</h3>
+        <h4>Use this service to count people entries and exits and you can also get their features</h4>
+
+        <div class="separator"></div>
+
+        <section id="countingLine">
+
+            <h3>Counting definitions</h3>
+
+            <h4>The virtual line is a 2D virtual line segment that allows the definition of the counting zone</h4>
+
+            <p>Origin: upper left corner</p>
+
+            <img src="images/CountingHelp.png" alt="image">
+
+            <div class="format">
+
+                <p>Counting line</p>
+
+                <fieldset>
+                    <input placeholder="X initial point" type="number" name="xInitial" min="0" required>
+                    <input placeholder="Y initial point" type="number" name="yInitial" min="0" required>
+                    <input placeholder="X end point" type="number" name="xEnd" min="0" required>
+                    <input placeholder="Y end point" type="number" name="yEnd" min="0" required>
+                </fieldset>
+
+            </div>
+
+            <div class="format">
+
+                <p>Entry direction vector</p>
+
+                <fieldset>
+                    <input placeholder="X value" type="number" name="xEntryDir" required>
+                    <input placeholder="Y value" type="number" name="yEntryDir" required>
+                </fieldset>
+            </div>
+
+            <div class="format">
+
+                <p>Tracking Algorithm</p>
+
+                <fieldset>
+                    <label for="nearCentroid">Nearest Centroid</label>
+                    <input type="radio" id="nearCentroid" name="trackingAlg" value="nearest_centroid" required>
+
+                    <label for="iou">Intersection over Union</label>
+                    <input type="radio" id="iou" name="trackingAlg" value="iou">
+
+                    <input placeholder="Threshold" type="number" step="0.01" name="trackingThr" min="0" required>
+                </fieldset>
+
+            </div>
+
+            <div class="format">
+
+                <p>Upload file</p>
+
+                <fieldset>
+                    <input type="file" name="upload_file" accept="video/mp4, video/ogg, video/mov, video/avi, video/wav" required>
+                </fieldset>
+
+            </div>
+
+        </section>
+
+        <fieldset>
+            <button name="submit" type="submit"  data-submit="Sending data...">Submit</button>
+        </fieldset>
+
+    </form>
+</div>
+
+</body>
+</html>

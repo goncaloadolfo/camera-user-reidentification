@@ -1,0 +1,35 @@
+.tab-content {
+    margin-top: 2%;
+}
+
+#generalP {
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+
+#generalVideo {
+    position: relative;
+    left: 22%;
+    width: 60%;
+}
+
+.card {
+    margin-left: 5%;
+    margin-bottom: 5%;
+}
+
+.person_frames > img {
+    height: 400px;
+}
+
+.text-center {
+    margin-bottom: 3%;
+}
+
+.plot {
+    margin-left: 25%;
+}
+
+#exitsTitle {
+    margin-top: 2%;
+}
